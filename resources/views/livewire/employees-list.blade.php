@@ -43,8 +43,6 @@
                                     <th scope="col">Department</th>
                                     <th scope="col">Phone</th>
                                     <th scope="col">Role</th>
-                                    <th scope="col" class="text-center">Status</th>
-                                    <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,25 +68,6 @@
                                     <td>{{ $user->department_name }}</td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->role }}</td>
-                                    <td class="text-center">
-                                        <span wire:click="changeStatus({{ $user->id }})" class="px-6 py-1.5 rounded-lg font-medium text-sm border 
-                                                    {{ $user->is_active === 1 ? 'bg-success-100 dark:bg-success-600/25 text-success-600 dark:text-success-400 border-success-600' : 'bg-danger-100 dark:bg-danger-600/25 text-danger-600 dark:text-danger-400 border-danger-600' }}">
-                                            {{ $user->is_active === 1 ? 'Active' : 'Inactive' }}
-                                        </span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="flex items-center gap-3 justify-center">
-                                            <a href="{{ route('viewProfile', $user->id) }}" type="button"
-                                                    class="bg-info-100 dark:bg-info-600/25 hover:bg-info-200 text-info-600 dark:text-info-400 font-medium w-10 h-10 flex justify-center items-center rounded-full">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </a>
-                                            <a type="button" href="{{ route('deleteUser', $user->id) }}"
-                                                class="remove-item-btn bg-danger-100 dark:bg-danger-600/25 hover:bg-danger-200 text-danger-600 dark:text-danger-500 font-medium w-10 h-10 flex justify-center items-center rounded-full"
-                                                onclick="confirmDelete(event, '{{ route('deleteUser', $user->id) }}')">
-                                                    <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </a>
-                                        </div>
-                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

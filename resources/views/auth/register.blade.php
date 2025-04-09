@@ -6,12 +6,16 @@
 
 <body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white">
 
-    <section class="bg-white dark:bg-dark-2 flex flex-wrap min-h-[100vh]">
-        <div class="lg:w-1/2 lg:block hidden">
-            <div class="flex items-center flex-col h-full justify-center">
-                <img src="{{ asset('assets/images/auth/auth-img.png') }}" alt="">
-            </div>
+    <section class="bg-white dark:bg-dark-2 flex min-h-screen">
+    <div class="lg:w-1/2 lg:block hidden relative"> <!-- Added relative -->
+        <div class="absolute inset-0 overflow-hidden"> <!-- Full cover container -->
+            <img 
+                src="{{ asset('assets/images/auth/keyandmouse.jpg') }}" 
+                alt="Login background"
+                class="w-full h-full object-cover" <!-- Full cover styling -->
+            >
         </div>
+    </div>
         <div class="lg:w-1/2 py-8 px-6 flex flex-col justify-center">
             <div class="lg:max-w-[464px] mx-auto w-full">
                 <div>
@@ -21,18 +25,25 @@
                     <h4 class="mb-3">Sign Up to your Account</h4>
                     <p class="mb-8 text-secondary-light text-lg">Welcome back! please enter your detail</p>
                 </div>
-                <form action="#">
+                <form action="{{ route('register') }}" method="post">
+                    @csrf
                     <div class="icon-field mb-4 relative">
                         <span class="absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none flex text-xl">
                             <iconify-icon icon="f7:person"></iconify-icon>
                         </span>
-                        <input type="text" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" placeholder="Username">
+                        <input type="text" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" placeholder="Your Full Name" name="name" id="name">
+                        @error('name')
+                            <span class="text-danger-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="icon-field mb-4 relative">
                         <span class="absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none flex text-xl">
                             <iconify-icon icon="mage:email"></iconify-icon>
                         </span>
-                        <input type="email" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" placeholder="Email">
+                        <input type="email" name="email" id="email" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" placeholder="Email">
+                        @error('email')
+                            <span class="text-danger-600">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-5">
                         <div class="relative">
@@ -40,11 +51,28 @@
                                 <span class="absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none flex text-xl">
                                     <iconify-icon icon="solar:lock-password-outline"></iconify-icon>
                                 </span>
-                                <input type="password" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" id="your-password" placeholder="Password">
+                                <input type="password" name="password" id="password" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" placeholder="Password">
+                                @error('password')
+                                    <span class="text-danger-600">{{ $message }}</span>
+                                @enderror
                             </div>
-                            <span class="toggle-password ri-eye-line cursor-pointer absolute end-0 top-1/2 -translate-y-1/2 me-4 text-secondary-light" data-toggle="#your-password"></span>
+                            <span class="toggle-password ri-eye-line cursor-pointer absolute end-0 top-1/2 -translate-y-1/2 me-4 text-secondary-light" data-toggle="#password"></span>
                         </div>
                         <span class="mt-3 text-sm text-secondary-light">Your password must have at least 8 characters</span>
+                    </div>
+                    <div class="mb-5">
+                        <div class="relative">
+                            <div class="icon-field">
+                                <span class="absolute start-4 top-1/2 -translate-y-1/2 pointer-events-none flex text-xl">
+                                    <iconify-icon icon="solar:lock-password-outline"></iconify-icon>
+                                </span>
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control h-[56px] ps-11 border-neutral-300 bg-neutral-50 dark:bg-dark-2 rounded-xl" placeholder="Confirm Password">
+                                @error('password_confirmation')
+                                    <span class="text-danger-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <span class="toggle-password ri-eye-line cursor-pointer absolute end-0 top-1/2 -translate-y-1/2 me-4 text-secondary-light" data-toggle="#password_confirmation"></span>
+                        </div>
                     </div>
                     <div class=" mt-6">
                         <div class="flex justify-between gap-2">
@@ -75,7 +103,7 @@
                         </button>
                     </div>
                     <div class="mt-8 text-center text-sm">
-                        <p class="mb-0">Already have an account?  <a href="{{ route('signin') }}" class="text-primary-600 font-semibold hover:underline">Sign In</a></p>
+                        <p class="mb-0">Already have an account?  <a href="{{ route('login') }}" class="text-primary-600 font-semibold hover:underline">Sign In</a></p>
                     </div>
 
                 </form>

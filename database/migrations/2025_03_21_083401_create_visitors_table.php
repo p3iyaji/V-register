@@ -35,6 +35,7 @@ return new class extends Migration
             $table->text('comment')->nullable(); // Additional comments about the visit (optional)
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps(); // Created at and updated at timestamps
+            $table->softDeletes();
         });
     }
 

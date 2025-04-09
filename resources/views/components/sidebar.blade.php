@@ -2,11 +2,12 @@
     <button type="button" class="sidebar-close-btn !mt-4">
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
     </button>
-    <div>
-        <a href="{{ route('index') }}" class="sidebar-logo">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="site logo" class="light-logo">
-            <img src="{{ asset('assets/images/logo-light.png') }}" alt="site logo" class="dark-logo">
-            <img src="{{ asset('assets/images/logo-icon.png') }}" alt="site logo" class="logo-icon">
+    <div> 
+        <a href="{{ route('index') }}" class="flex items-center sidebar-logo">
+            <img src="{{ asset('assets/images/naltf-logo.png') }}" alt="site logo" class="light-logo">
+            <img src="{{ asset('assets/images/naltf-logo.png') }}" alt="site logo" class="dark-logo">
+            <img src="{{ asset('assets/images/naltf-logo.png') }}" alt="site logo" class="logo-icon">
+        <span class="font-bold text-xl">V-Register</span>
         </a>
     </div>
     <div class="sidebar-menu-area">
@@ -44,6 +45,7 @@
                     <span>Walk-in Visitors</span>
                 </a>
             </li>
+            @if(auth()->user()->role == 'admin')
             <li class="dropdown">
                 <a href="javascript:void(0)">
                     <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
@@ -59,6 +61,7 @@
                     </li>
                 </ul>
             </li>
+            
             <li class="dropdown">
                 <a href="javascript:void(0)">
                     <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
@@ -72,6 +75,17 @@
                         <a href="{{ route('addDepartment') }}"><i class="ri-circle-fill circle-icon text-info-600 w-auto"></i> Add Department</a>
                     </li>
                 </ul>
+            </li>
+            @endif
+            <li>
+                <form method="post" action="{{ route('logout') }}">
+                    @csrf
+                
+                    <button type="submit" class="text-black px-0 py-2 hover:text-danger-600 flex items-center gap-4">
+                        <iconify-icon icon="lucide:power" class="menu-icon"></iconify-icon>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </li>
         </ul>
     </div>

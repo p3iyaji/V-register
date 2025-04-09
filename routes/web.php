@@ -1,105 +1,106 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\VisitorsController;
 use App\Http\Controllers\PreRegistersController;
+use App\Http\Controllers\NotificationController;
+use App\Livewire\UserList;
+use Laravel\Fortify\Fortify;
 
-Route::controller(DashboardController::class)->group(function () {
-    Route::get('/', 'index')->name('index');
+
+Route::get('/clear-cache', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('optimize:clear');
+    Artisan::call('config:cache');
+    return response()->json(['success' => 'Cache cleared successfully']);
 });
 
-
-// Authentication
-Route::prefix('authentication')->group(function () {
-    Route::controller(AuthenticationController::class)->group(function () {
-        Route::get('/forgot-password', 'forgotPassword')->name('forgotPassword');
-        Route::get('/sign-in', 'signin')->name('signin');
-        Route::get('/sign-up', 'signup')->name('signup');
-    });
+Route::get('/storagelink', function() {
+    Artisan::call('storage:link');
+    return response()->json(['success' => 'Storage link created successfully']);
 });
 
+Livewire::setScriptRoute(function ($handle) {
+    return Route::get('/public/livewire/livewire.js', $handle);
+});
 
-// Dashboard
-Route::prefix('dashboard')->group(function () {
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post('/public/livewire/update', $handle);
+});
+
+// For basic authentication
+Route::middleware(['auth'])->group(function () {
+    // Protected web routes
     Route::controller(DashboardController::class)->group(function () {
-        Route::get('/index', 'index')->name('index');      
+        Route::get('/', 'index')->name('index');
+        Route::get('/visitor-stats', 'getVisitorStats')->name('visitorStats');
     });
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllRead');
+
+    // Users
+    Route::get('users-list', [UsersController::class, 'usersList'])->name('usersList');
+    Route::get('employees-list', [UsersController::class, 'employeesList'])->name('employeesList');
+    Route::get('view-profile/{id}', [UsersController::class, 'viewProfile'])->name('viewProfile');
+    Route::get('update-password/{id}', [UsersController::class, 'updatePassword'])->name('updatePassword');
+    Route::post('save-user', [UsersController::class, 'saveUser'])->name('saveUser');
+    Route::get('edit-user/{id}', [UsersController::class, 'editUser'])->name('editUser');
+    Route::put('update-user/{id}', [UsersController::class, 'updateUser'])->name('updateUser');
+    Route::get('delete-user/{id}', [UsersController::class, 'deleteUser'])->name('deleteUser');
+    Route::get('add-user', [UsersController::class, 'addUser'])->name('addUser');
+
+    // Departments
+    Route::get('departments-list', [DepartmentsController::class, 'departmentsList'])->name('departmentsList');
+    Route::get('add-department', [DepartmentsController::class, 'addDepartment'])->name('addDepartment');
+    Route::post('save-department', [DepartmentsController::class, 'saveDepartment'])->name('saveDepartment');
+    Route::get('edit-department/{id}', [DepartmentsController::class, 'editDepartment'])->name('editDepartment');
+    Route::put('update-department/{id}', [DepartmentsController::class, 'updateDepartment'])->name('updateDepartment');
+    Route::get('delete-department/{id}', [DepartmentsController::class, 'deleteDepartment'])->name('deleteDepartment');
+   
+    // Visitors
+    Route::get('visitors-list', [VisitorsController::class, 'visitorsList'])->name('visitorsList');
+    Route::get('add-visitor', [VisitorsController::class, 'addVisitor'])->name('addVisitor');
+    Route::post('save-visitor', [VisitorsController::class, 'saveVisitor'])->name('saveVisitor');
+    Route::get('edit-visitor/{id}', [VisitorsController::class, 'editVisitor'])->name('editVisitor');
+    Route::put('update-visitor/{id}', [VisitorsController::class, 'updateVisitor'])->name('updateVisitor');
+    Route::get('delete-visitor/{id}', [VisitorsController::class, 'deleteVisitor'])->name('deleteVisitor');
+    Route::get('view-visitor/{id}', [VisitorsController::class, 'viewVisitor'])->name('viewVisitor');
+    Route::get('walk-in-visitors', [VisitorsController::class, 'walkInVisitors'])->name('walkInVisitors');
+    Route::get('accept-visitor/{id}', [VisitorsController::class, 'acceptVisitor'])->name('acceptVisitor');
+    Route::get('reject-visitor/{id}', [VisitorsController::class, 'rejectVisitor'])->name('rejectVisitor');
+    Route::get('generate-card/{id}', [VisitorsController::class, 'generateVisitorCard'])->name('generateVisitorCard');
+    Route::get('check-in/{id}', [VisitorsController::class, 'checkIn'])->name('checkIn');
+    Route::get('check-out/{id}', [VisitorsController::class, 'checkOut'])->name('checkOut');
+    Route::get('notify-host/{id}', [VisitorsController::class, 'notifyHost'])->name('notifyHost');
+
+    // Pre-Registers
+    Route::get('pre-registers-list', [PreRegistersController::class, 'preRegistersList'])->name('preRegistersList');
+    Route::get('add-pre-register', [PreRegistersController::class, 'addPreRegister'])->name('addPreRegister');
+    Route::post('save-pre-register', [PreRegistersController::class, 'savePreRegister'])->name('savePreRegister');
+    Route::get('edit-pre-register/{id}', [PreRegistersController::class, 'editPreRegister'])->name('editPreRegister');
+    Route::put('update-pre-register/{id}', [PreRegistersController::class, 'updatePreRegister'])->name('updatePreRegister');
+    Route::get('delete-pre-register/{id}', [PreRegistersController::class, 'deletePreRegister'])->name('deletePreRegister');
+    Route::get('view-pre-register/{id}', [PreRegistersController::class, 'viewPreRegister'])->name('viewPreRegister');
+
 });
+ 
+
+// // For authentication + email verification
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     // Protected & verified routes
+// });
 
 
-// Settings
-Route::prefix('settings')->group(function () {
-    Route::controller(SettingsController::class)->group(function () {
-        Route::get('/company', 'company')->name('company');
-        Route::get('/currencies', 'currencies')->name('currencies');
-        Route::get('/language', 'language')->name('language');
-        Route::get('/notification', 'notification')->name('notification');
-        Route::get('/notification-alert', 'notificationAlert')->name('notificationAlert');
-        Route::get('/payment-gateway', 'paymentGateway')->name('paymentGateway');
-        Route::get('/theme', 'theme')->name('theme');
-    });
-});
 
-// Users
-Route::prefix('users')->group(function () {
-    Route::controller(UsersController::class)->group(function () {
-        Route::get('/add-user', 'addUser')->name('addUser');
-        Route::post('/save-user', 'saveUser')->name('saveUser');
-        Route::get('/edit-user/{id}', 'editUser')->name('editUser');
-        Route::put('/update-user/{id}', 'updateUser')->name('updateUser');
-        Route::get('/delete-user/{id}', 'deleteUser')->name('deleteUser');
-        Route::get('/users-list', 'usersList')->name('usersList');
-        Route::get('/employees-list', 'employeesList')->name('employeesList');
-        Route::get('/view-profile/{id}', 'viewProfile')->name('viewProfile');
-        Route::put('/update-password/{id}', 'updatePassword')->name('updatePassword');
-    });
-});
 
-// Departments
-Route::prefix('departments')->group(function () {
-    Route::controller(DepartmentsController::class)->group(function () {
-        Route::get('/add-department', 'addDepartment')->name('addDepartment');
-        Route::get('/departments-list', 'departmentsList')->name('departmentsList');
-        Route::post('/save-department', 'saveDepartment')->name('saveDepartment');
-        Route::get('/edit-department/{id}', 'editDepartment')->name('editDepartment');
-        Route::put('/update-department/{id}', 'updateDepartment')->name('updateDepartment');
-        Route::get('/delete-department/{id}', 'deleteDepartment')->name('deleteDepartment');
-    });
-});
-
-// Visitors
-Route::prefix('visitors')->group(function () {
-    Route::controller(VisitorsController::class)->group(function () {
-        Route::get('/add-visitor', 'addVisitor')->name('addVisitor');
-        Route::get('/visitors-list', 'visitorsList')->name('visitorsList');
-        Route::get('/view-visitor/{id}', 'viewVisitor')->name('viewVisitor');
-        Route::get('/walk-in-visitors', 'walkInVisitors')->name('walkInVisitors');
-        Route::post('/save-visitor', 'saveVisitor')->name('saveVisitor');
-        Route::get('/edit-visitor/{id}', 'editVisitor')->name('editVisitor');
-        Route::put('/update-visitor/{id}', 'updateVisitor')->name('updateVisitor');
-        Route::get('/delete-visitor/{id}', 'deleteVisitor')->name('deleteVisitor');
-        Route::get('/accept-visitor/{id}', 'acceptVisitor')->name('acceptVisitor');
-        Route::get('/reject-visitor/{id}', 'rejectVisitor')->name('rejectVisitor');
-        Route::get('/generate-card/{id}', 'generateVisitorCard')->name('generateVisitorCard');
-    });
-});
-
-// Pre-Registers
-Route::prefix('pre-registers')->group(function () {
-    Route::controller(PreRegistersController::class)->group(function () {
-        Route::get('/add-pre-register', 'addPreRegister')->name('addPreRegister');
-        Route::get('/pre-registers-list', 'preRegistersList')->name('preRegistersList');
-        Route::get('/view-pre-register/{id}', 'viewPreRegister')->name('viewPreRegister');
-        Route::post('/save-pre-register', 'savePreRegister')->name('savePreRegister');
-        Route::get('/edit-pre-register/{id}', 'editPreRegister')->name('editPreRegister');
-        Route::put('/update-pre-register/{id}', 'updatePreRegister')->name('updatePreRegister');
-        Route::get('/delete-pre-register/{id}', 'deletePreRegister')->name('deletePreRegister');
-    });
-});
 

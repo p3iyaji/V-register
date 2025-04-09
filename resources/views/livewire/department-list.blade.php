@@ -59,7 +59,7 @@
                                             {{ $loop->iteration }}
                                         </div>
                                     </td>
-                                    <td>{{ $department->created_at->format('d M Y') }}</td>
+                                    <td>{{ $department->created_at }}</td>
                                     <td>{{ $department->name }}</td>
                                     <td>{{ $department->description }}</td>
                                     <td class="text-center">
@@ -69,11 +69,13 @@
                                                     class="bg-success-100 dark:bg-success-600/25 text-success-600 dark:text-success-400 bg-hover-success-200 font-medium w-10 h-10 flex justify-center items-center rounded-full">
                                                 <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
                                             </a>
+                                            @if(auth()->user()->role == 'admin')
                                             <a type="button" href="{{ route('deleteDepartment', $department->id) }}"
                                                 class="remove-item-btn bg-danger-100 dark:bg-danger-600/25 hover:bg-danger-200 text-danger-600 dark:text-danger-500 font-medium w-10 h-10 flex justify-center items-center rounded-full"
                                                 onclick="confirmDelete(event, '{{ route('deleteDepartment', $department->id) }}')">
                                                     <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
                                             </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

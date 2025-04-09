@@ -13,6 +13,7 @@ class PreRegistersList extends Component
 
     public $search = '';
     public $perPage = 10;
+    public $mySearch = '';
 
     protected $queryString = [
         'search' => ['except' => ''],

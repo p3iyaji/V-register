@@ -41,6 +41,7 @@ class VisitorsList extends Component
                 ->orWhere('check_out', 'like', '%' . $this->search . '%')
                 ->orWhere('national_id_no', 'like', '%' . $this->search . '%')
                 ->orWhere('gender', 'like', '%' . $this->search . '%')
+                ->orWhere('type', 'like', '%' . $this->search . '%')
                   // For date searching
                 ->orWhereDate('created_at', $this->search)
                 ->orWhere(DB::raw("DATE_FORMAT(created_at, '%d %b %Y')"), 'like', '%' . $this->search . '%')
@@ -49,12 +50,13 @@ class VisitorsList extends Component
         return $query;
     }
 
+
     public function render()
     {
         //logger('search_value:', ['search' => $this->search]);
 
         $visitors = $this->applySearch(Visitor::query())
-            ->paginate($this->perPage);
+            ->orderBy('created_at', 'desc')->paginate($this->perPage);
 
         return view('livewire.visitors-list', ['visitors' => $visitors]);
     }

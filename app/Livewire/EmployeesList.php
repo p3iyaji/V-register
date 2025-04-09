@@ -58,7 +58,8 @@ class EmployeesList extends Component
         //logger('search_value:', ['search' => $this->search]);
 
         $users = DB::table('users')
-        ->where('role', 'employee')
+        ->where('is_active', true)
+        ->where('deleted_at', null)
         ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
         ->select('users.*', 'departments.name as department_name');
 

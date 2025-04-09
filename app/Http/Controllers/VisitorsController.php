@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Visitor;
 use App\Models\User;
+use App\Notifications\VisitorApprovedNotification;
+use App\Notifications\VisitorRejectedNotification;
+use App\Notifications\VisitorArrivedNotification;
+use Illuminate\Notifications\DatabaseNotification;
 
 class VisitorsController extends Controller
 {
 
     public function addVisitor()
     {
-        $users = User::all();
+        $users = User::where('is_active', true)->get();
         return view('visitors/addVisitor', compact('users'));
     }
     
@@ -121,7 +126,6 @@ class VisitorsController extends Controller
             $visitor->user_id = 1;
             $visitor->employee_id = $request->employee_id;
             $visitor->status = 'Pending';
-            $visitor->type = 'walk-in';
             $visitor->update();
         } else {
             $visitor = Visitor::findOrFail($id);
@@ -139,7 +143,6 @@ class VisitorsController extends Controller
             $visitor->user_id = 1;
             $visitor->employee_id = $request->employee_id;
             $visitor->status = 'Pending';
-            $visitor->type = 'walk-in';
             $visitor->update();
         }
         
@@ -162,12 +165,25 @@ class VisitorsController extends Controller
         return view('visitors/viewVisitor', compact('visitor'));
     }
   
+    public function notifyHost($id)
+    {
+        $visitor = Visitor::findOrFail($id);
+        Notification::sendNow($visitor->employee, new VisitorArrivedNotification($visitor));
+        return redirect()->route('viewVisitor', $id)->with('success', 'Visitor notified successfully');
+    }
+
     public function acceptVisitor($id)
     {
         $visitor = Visitor::findOrFail($id);
         $visitor->status = 'accepted';
         $visitor->check_in = now();
+        $visitor->approved_by = auth()->user()->id;
         $visitor->update();
+
+        if ($visitor->employee) {
+            Notification::sendNow($visitor->employee, new VisitorApprovedNotification($visitor));
+        }
+
         return redirect()->route('viewVisitor', $id)->with('success', 'Visitor accepted successfully');
     }
 
@@ -176,7 +192,30 @@ class VisitorsController extends Controller
         $visitor = Visitor::findOrFail($id);
         $visitor->status = 'rejected';
         $visitor->update();
+
+        if($visitor->employee) {
+            Notification::sendNow($visitor->employee, new VisitorRejectedNotification($visitor));
+        }
         return redirect()->route('viewVisitor', $id)->with('success', 'Visitor rejected successfully');
+    }
+
+    public function checkOut($id)
+    {
+        $visitor = Visitor::findOrFail($id);
+        $visitor->check_out = now();
+        $visitor->update();
+        return redirect()->route('visitorsList')->with('success', 'Visitor checked out successfully');
+    }
+
+    public function markNotificationAsRead($notificationId)
+    {
+        $notification = DatabaseNotification::find($notificationId);
+        
+        if ($notification && $notification->notifiable_id === auth()->id()) {
+            $notification->markAsRead();
+        }
+        
+        return redirect()->to($notification->data['action_url'] ?? '/');
     }
 
     public function generateVisitorCard($id)

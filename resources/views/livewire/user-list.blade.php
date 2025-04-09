@@ -1,5 +1,6 @@
+ 
  <div>
- <div class="grid grid-cols-12">
+     <div class="grid grid-cols-12">
         <div class="col-span-12">
             <div class="card h-full p-0 rounded-xl border-0 overflow-hidden">
                 <div class="card-header border-b border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-700 py-4 px-6 flex items-center flex-wrap gap-3 justify-between">
@@ -70,7 +71,11 @@
                                         </div>
                                     </td>
                                     <td><span class="text-base mb-0 font-normal text-secondary-light">{{ $user->email }}</span></td>
+                                   @if($user->department)
                                     <td>{{ $user->department->name }}</td>
+                                    @else
+                                    <td class="text-base mb-0 font-normal text-warning-600">Not Assigned</td>
+                                    @endif
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td class="text-center">

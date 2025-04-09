@@ -2,302 +2,7 @@
 @php
     $title='Dashboard';
     $subTitle = 'Visitor\'s Register';
-    $script = '<script>
-                    // ===================== Average Enrollment Rate Start =============================== 
-                    function createChartTwo(chartId, color1, color2) {
-                        var options = {
-                            series: [{
-                                name: "series1",
-                                data: [48, 35, 55, 32, 48, 30, 55, 50, 57]
-                            }, {
-                                name: "series2",
-                                data: [12, 20, 15, 26, 22, 60, 40, 48, 25]
-                            }],
-                            legend: {
-                                show: false
-                            },
-                            chart: {
-                                type: "area",
-                                width: "100%",
-                                height: 270,
-                                toolbar: {
-                                    show: false
-                                },
-                                padding: {
-                                    left: 0,
-                                    right: 0,
-                                    top: 0,
-                                    bottom: 0
-                                }
-                            },
-                            dataLabels: {
-                                enabled: false
-                            },
-                            stroke: {
-                                curve: "smooth",
-                                width: 3,
-                                colors: [color1, color2], // Use two colors for the lines
-                                lineCap: "round"
-                            },
-                            grid: {
-                                show: true,
-                                borderColor: "#D1D5DB",
-                                strokeDashArray: 1,
-                                position: "back",
-                                xaxis: {
-                                    lines: {
-                                        show: false
-                                    }
-                                },
-                                yaxis: {
-                                    lines: {
-                                        show: true
-                                    }
-                                },
-                                row: {
-                                    colors: undefined,
-                                    opacity: 0.5
-                                },
-                                column: {
-                                    colors: undefined,
-                                    opacity: 0.5
-                                },
-                                padding: {
-                                    top: -20,
-                                    right: 0,
-                                    bottom: -10,
-                                    left: 0
-                                },
-                            },
-                            fill: {
-                                type: "gradient",
-                                colors: [color1, color2], // Use two colors for the gradient
-                                // gradient: {
-                                //     shade: "light",
-                                //     type: "vertical",
-                                //     shadeIntensity: 0.5,
-                                //     gradientToColors: [`${color1}`, `${color2}00`], // Bottom gradient colors with transparency
-                                //     inverseColors: false,
-                                //     opacityFrom: .6,
-                                //     opacityTo: 0.3,
-                                //     stops: [0, 100],
-                                // },
-                                gradient: {
-                                    shade: "light",
-                                    type: "vertical",
-                                    shadeIntensity: 0.5,
-                                    gradientToColors: [undefined, `${color2}00`], // Apply transparency to both colors
-                                    inverseColors: false,
-                                    opacityFrom: [0.4, 0.6], // Starting opacity for both colors
-                                    opacityTo: [0.3, 0.3], // Ending opacity for both colors
-                                    stops: [0, 100],
-                                },
-                            },
-                            markers: {
-                                colors: [color1, color2], // Use two colors for the markers
-                                strokeWidth: 3,
-                                size: 0,
-                                hover: {
-                                    size: 10
-                                }
-                            },
-                            xaxis: {
-                                labels: {
-                                    show: false
-                                },
-                                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                                tooltip: {
-                                    enabled: false
-                                },
-                                labels: {
-                                    formatter: function(value) {
-                                        return value;
-                                    },
-                                    style: {
-                                        fontSize: "14px"
-                                    }
-                                }
-                            },
-                            yaxis: {
-                                labels: {
-                                    formatter: function(value) {
-                                        return "$" + value + "k";
-                                    },
-                                    style: {
-                                        fontSize: "14px"
-                                    }
-                                },
-                            },
-                            tooltip: {
-                                x: {
-                                    format: "dd/MM/yy HH:mm"
-                                }
-                            }
-                        };
 
-                        var chart = new ApexCharts(document.querySelector(`#${chartId}`), options);
-                        chart.render();
-                    }
-
-                    createChartTwo("enrollmentChart", "#487FFF", "#FF9F29");
-                    // ===================== Average Enrollment Rate End =============================== 
-
-
-                    // ================================ User Activities Donut chart End ================================ 
-                    var options = {
-                        series: [30, 25],
-                        colors: ["#FF9F29", "#45B369"],
-                        labels: ["Female", "Male"],
-                        legend: {
-                            show: false
-                        },
-                        chart: {
-                            type: "donut",
-                            height: 260,
-                            sparkline: {
-                                enabled: true // Remove whitespace
-                            },
-                            margin: {
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: 0
-                            },
-                            padding: {
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: 0
-                            }
-                        },
-                        stroke: {
-                            width: 0,
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        responsive: [{
-                            breakpoint: 480,
-                            options: {
-                                chart: {
-                                    width: 200
-                                },
-                                legend: {
-                                    position: "bottom"
-                                }
-                            }
-                        }],
-                    };
-
-                    var chart = new ApexCharts(document.querySelector("#statisticsDonutChart"), options);
-                    chart.render();
-                    // ================================ User Activities Donut chart End ================================ 
-
-
-                    // ================================ Client Payment Status chart End ================================ 
-                    var options = {
-                        series: [{
-                            name: "Net Profit",
-                            data: [44, 100, 40, 56, 30, 58, 50]
-                        }, {
-                            name: "Free Cash",
-                            data: [60, 120, 60, 90, 50, 95, 90]
-                        }],
-                        colors: ["#45B369", "#FF9F29"],
-                        labels: ["Active", "New", "Total"],
-
-                        legend: {
-                            show: false
-                        },
-                        chart: {
-                            type: "bar",
-                            height: 260,
-                            toolbar: {
-                                show: false
-                            },
-                        },
-                        grid: {
-                            show: true,
-                            borderColor: "#D1D5DB",
-                            strokeDashArray: 4, // Use a number for dashed style
-                            position: "back",
-                        },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: 4,
-                                columnWidth: 8,
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        states: {
-                            hover: {
-                                filter: {
-                                    type: "none"
-                                }
-                            }
-                        },
-                        stroke: {
-                            show: true,
-                            width: 0,
-                            colors: ["transparent"]
-                        },
-                        xaxis: {
-                            categories: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"],
-                        },
-                        fill: {
-                            opacity: 1,
-                            width: 18,
-                        },
-                    };
-
-                    var chart = new ApexCharts(document.querySelector("#paymentStatusChart"), options);
-                    chart.render();
-                    // ================================ Client Payment Status chart End ================================ 
-
-                    // ================================= Multiple Radial Bar Chart Start =============================
-                    var options = {
-                        series: [80, 40, 10],
-                        chart: {
-                            height: 300,
-                            type: "radialBar",
-                        },
-                        colors: ["#3D7FF9", "#ff9f29", "#16a34a"],
-                        stroke: {
-                            lineCap: "round",
-                        },
-                        plotOptions: {
-                            radialBar: {
-                                hollow: {
-                                    size: "10%", // Adjust this value to control the bar width
-                                },
-                                dataLabels: {
-                                    name: {
-                                        fontSize: "16px",
-                                    },
-                                    value: {
-                                        fontSize: "16px",
-                                    },
-                                    // total: {
-                                    //     show: true,
-                                    //     formatter: function (w) {
-                                    //         return "82%"
-                                    //     }
-                                    // }
-                                },
-                                track: {
-                                    margin: 20, // Space between the bars
-                                }
-                            }
-                        },
-                        labels: ["Cardiology", "Psychiatry", "Pediatrics"],
-                    };
-
-                    var chart = new ApexCharts(document.querySelector("#radialMultipleBar"), options);
-                    chart.render();
-                    // ================================= Multiple Radial Bar Chart End =============================
-                    </script>';
 @endphp
 
 @section('content')
@@ -314,12 +19,12 @@
                                             <i class="ri-group-fill"></i>
                                         </span>
                                         <div>
-                                            <h6 class="font-semibold mb-0.5">650</h6>
-                                            <span class="font-medium text-gray-600 text-sm">Total Visitors</span>
+                                            <h6 class="font-semibold mb-0.5">{{ $totalTodayVisitors }}</h6>
+                                            <span class="font-medium text-gray-600 text-sm">Total Visitors Today</span>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-sm mb-0 text-gray-600"><span class="text-cyan-600 dark:text-cyan-600">4</span> Visitor's this week</p>
+                                <p class="text-sm mb-0 text-gray-600"><span class="text-cyan-600 dark:text-cyan-600">{{ $totalVisitors }}</span> Total Visitors</p>
                             </div>
                         </div>
                     </div>
@@ -332,12 +37,12 @@
                                             <i class="ri-award-fill"></i>
                                         </span>
                                         <div>
-                                            <h6 class="font-semibold mb-0.5">570</h6>
-                                            <span class="font-medium text-gray-600 text-sm">Total Pre-Registers</span>
+                                            <h6 class="font-semibold mb-0.5">{{ $totalTodayPreRegistered }}</h6>
+                                            <span class="font-medium text-gray-600 text-sm">Total Pre-Registers Today</span>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-sm mb-0 text-gray-600"><span class="text-lilac-600 dark:text-lilac-600">8</span> Pre-Registers this week</p>
+                                <p class="text-sm mb-0 text-gray-600"><span class="text-lilac-600 dark:text-lilac-600">{{ $totalPreRegistered }}</span> Total Pre-Registered Visitors</p>
                             </div>
                         </div>
                     </div>
@@ -350,12 +55,11 @@
                                             <i class="ri-group-fill"></i>
                                         </span>
                                         <div>
-                                            <h6 class="font-semibold mb-0.5">15,750</h6>
-                                            <span class="font-medium text-gray-600 text-sm">Today's Attendance</span>
+                                            <h6 class="font-semibold mb-0.5">{{ $totalCheckedIn }}</h6>
+                                            <span class="font-medium text-gray-600 text-sm">Checked In Today</span>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-sm mb-0 text-gray-600"><span class="text-primary-600 dark:text-primary-600">170</span> Visitors Attended</p>
                             </div>
                         </div>
                     </div>
@@ -368,28 +72,30 @@
                                             <i class="ri-wallet-3-fill"></i>
                                         </span>
                                         <div>
-                                            <h6 class="font-semibold mb-0.5">$42,400</h6>
-                                            <span class="font-medium text-gray-600 text-sm">Total Employees </span>
+                                            <h6 class="font-semibold mb-0.5">{{ $totalCheckedOut }}</h6>
+                                            <span class="font-medium text-gray-600 text-sm">Checked Out Today</span>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-sm mb-0 text-gray-600"><span class="text-success-600 dark:text-success-600">60,000 </span> Employees</p>
                             </div>
                         </div>
                     </div>
 
+                    @livewire('visitor-type-selector')
+
+                    @if (auth()->user()->role == 'admin')
                     <!-- Earning Statistic -->
                     <div class="col-span-12 2xl:col-span-12">
                         <div class="card border-0 h-full">
                             <div class="card-header">
-                                <div class="flex items-center gap-2 justify-between">
+                                <!-- <div class="flex items-center gap-2 justify-between">
                                     <h6 class="mb-0 font-bold text-lg">Visitor's Statistic</h6>
                                     <select class="form-select form-select-sm w-auto bg-base border border-neutral-600/25 text-gray-600 dark:text-white dark:bg-gray-800 !pe-7">
                                         <option>This Month</option>
                                         <option>This Week</option>
                                         <option>This Year</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="card-body p-1.5">
                                 <ul class="flex flex-wrap items-center justify-center my-3 gap-3">
@@ -397,236 +103,27 @@
                                         <span class="w-3 h-2 rounded-[50rem] bg-primary-600"></span>
                                         <span class="text-gray-600 text-sm font-semibold">
                                             Pre-Register Visitor's:
-                                            <span class="text-gray-900 font-bold">50</span>
+                                            <span class="text-gray-900 font-bold">{{ $totalPreRegistered }}</span>
                                         </span>
                                     </li>
                                     <li class="flex items-center gap-2">
                                         <span class="w-3 h-2 rounded-[50rem] bg-warning-600"></span>
                                         <span class="text-gray-600 text-sm font-semibold">
-                                            Front Desk Visitor's:
-                                            <span class="text-gray-900 font-bold"> 500</span>
+                                            Walk-in Visitor's:
+                                            <span class="text-gray-900 font-bold">{{ $totalWalkIn }}</span>
                                         </span>
                                     </li>
                                 </ul>
-                                <div id="enrollmentChart" class="apexcharts-tooltip-style-1 apexcharts-yaxis"></div>
+                                <div id="visitorTypeChart" class="apexcharts-tooltip-style-1 apexcharts-yaxis"></div>
                             </div>
                         </div>
                     </div>
-                    <!-- Earning Statistic -->
-                    <!-- Patient Visited by Department -->
-                    <div class="col-span-12 lg:col-span-6">
-                        <div class="card border-0 h-full">
-                            <div class="card-header">
-                                <div class="flex items-center gap-2 justify-between">
-                                    <h6 class="mb-0 font-bold text-lg">Visitor's Statistic</h6>
-                                </div>
-                            </div>
-                            <div class="card-body p-1.5 flex items-center gap-4">
-                                <div id="radialMultipleBar"></div>
-                                <ul class="flex flex-col gap-3">
-                                    <li>
-                                        <span class="text-lg">Total Visitors: <span class="text-primary-600 dark:text-primary-600 font-semibold">80%</span> </span>
-                                    </li>
-                                    <li>
-                                        <span class="text-lg">Total Pre-Registers: <span class="text-warning-600 dark:text-warning-600 font-semibold">40%</span> </span>
-                                    </li>
-                                    <li>
-                                        <span class="text-lg">Today's Attendance: <span class="text-success-600 dark:text-success-600 font-semibold">10%</span> </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Patient Visited by Department -->
-                    <!-- Patient Visit By Gender -->
-                    <div class="col-span-12 lg:col-span-6">
-                        <div class="card border-0 h-full">
-                            <div class="card-header">
-                                <div class="flex items-center gap-2 justify-between">
-                                    <h6 class="mb-0 font-bold text-lg">Visits by date</h6>
-                                    <select class="form-select form-select-sm w-auto bg-base border border-neutral-600/25 text-gray-600 dark:text-white dark:bg-gray-800 !pe-7">
-                                        <option>This Month</option>
-                                        <option>This Week</option>
-                                        <option>This Year</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="card-body p-1.5">
-                                <ul class="flex flex-wrap items-center justify-center my-3 gap-3">
-                                    <li class="flex items-center gap-2">
-                                        <span class="w-3 h-2 rounded-[50rem] bg-warning-600"></span>
-                                        <span class="text-gray-600 text-sm font-semibold">
-                                            Male:
-                                            <span class="text-gray-900 font-bold">200</span>
-                                        </span>
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <span class="w-3 h-2 rounded-[50rem] bg-success-600"></span>
-                                        <span class="text-gray-600 text-sm font-semibold">
-                                            Female:
-                                            <span class="text-gray-900 font-bold"> 450</span>
-                                        </span>
-                                    </li>
-                                </ul>
-                                <div id="paymentStatusChart" class="margin-16-minus y-value-left"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Patient Visit By Gender -->
-                    <!-- Top performance Start -->
-                    <div class="col-span-12 2xl:col-span-4">
-                        <div class="card border-0">
-                            <div class="card-header border-bottom">
-                                <div class="flex items-center gap-2 justify-between">
-                                    <h6 class="mb-0 font-bold text-lg">Employees List</h6>
-                                    <a href="javascript:void(0)" class="flex-shrink-0 text-primary-600 dark:text-primary-600 hover-text-primary flex items-center gap-1">
-                                        View All
-                                        <iconify-icon icon="solar:alt-arrow-right-linear" class="icon"></iconify-icon>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="flex flex-col gap-6">
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('assets/images/home-eight/doctor-img1.png') }}" alt="" class="w-10 h-10 rounded-full flex-shrink-0 me-3 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-base mb-0">Dr. Davis</h6>
-                                                <span class="text-sm text-gray-600 font-medium">Cardiology</span>
-                                            </div>
-                                        </div>
-                                        <span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Available</span>
-                                    </div>
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('assets/images/home-eight/doctor-img2.png') }}" alt="" class="w-10 h-10 rounded-full flex-shrink-0 me-3 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-base mb-0">Dr. Riead</h6>
-                                                <span class="text-sm text-gray-600 font-medium">Orthopedics</span>
-                                            </div>
-                                        </div>
-                                        <span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Available</span>
-                                    </div>
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('assets/images/home-eight/doctor-img3.png') }}" alt="" class="w-10 h-10 rounded-full flex-shrink-0 me-3 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-base mb-0">Albert Flores</h6>
-                                                <span class="text-sm text-gray-600 font-medium">Ophthalmology</span>
-                                            </div>
-                                        </div>
-                                        <span class="bg-danger-focus text-danger-main dark:text-danger-main px-2.5 py-1 rounded-lg font-medium text-sm">Not Available</span>
-                                    </div>
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('assets/images/home-eight/doctor-img4.png') }}" alt="" class="w-10 h-10 rounded-full flex-shrink-0 me-3 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-base mb-0">Dr. Smith</h6>
-                                                <span class="text-sm text-gray-600 font-medium">Cardiology</span>
-                                            </div>
-                                        </div>
-                                        <span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Available</span>
-                                    </div>
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('assets/images/home-eight/doctor-img6.png') }}" alt="" class="w-10 h-10 rounded-full flex-shrink-0 me-3 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-base mb-0">Dr. Johnson</h6>
-                                                <span class="text-sm text-gray-600 font-medium">Cardiology</span>
-                                            </div>
-                                        </div>
-                                        <span class="bg-danger-focus text-danger-main dark:text-danger-main px-2.5 py-1 rounded-lg font-medium text-sm">Not Available</span>
-                                    </div>
-                                    <div class="flex items-center justify-between gap-3">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('assets/images/home-eight/doctor-img5.png') }}" alt="" class="w-10 h-10 rounded-full flex-shrink-0 me-3 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <h6 class="text-base mb-0">Dr. Martinez</h6>
-                                                <span class="text-sm text-gray-600 font-medium">Cardiology</span>
-                                            </div>
-                                        </div>
-                                        <span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Available</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Top performance End -->
-
-                    <div class="col-span-12 2xl:col-span-8">
-                        <div class="card border-0 h-full">
-                            <div class="card-header border-bottom bg-base py-4 px-6 flex items-center justify-between">
-                                <h6 class="text-lg font-semibold mb-0">Latest Appointments</h6>
-                                <a href="javascript:void(0)" class="flex-shrink-0 text-primary-600 dark:text-primary-600 hover-text-primary flex items-center gap-1">
-                                    View All
-                                    <iconify-icon icon="solar:alt-arrow-right-linear" class="icon"></iconify-icon>
-                                </a>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive scroll-sm">
-                                    <table class="table bordered-table mb-0 rounded-0 border-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="bg-transparent rounded-0">Name</th>
-                                                <th scope="col" class="bg-transparent rounded-0">ID</th>
-                                                <th scope="col" class="bg-transparent rounded-0">Date</th>
-                                                <th scope="col" class="bg-transparent rounded-0">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>General Checkup</td>
-                                                <td>#63254</td>
-                                                <td>27 Mar 2025</td>
-                                                <td><span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Completed</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Blood test results</td>
-                                                <td>3.053 ETH</td>
-                                                <td>2h 5m 40s</td>
-                                                <td><span class="bg-danger-focus text-danger-main dark:text-danger-main px-2.5 py-1 rounded-lg font-medium text-sm">Canceled</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Heart Checkup</td>
-                                                <td>3.053 ETH</td>
-                                                <td>2h 5m 40s</td>
-                                                <td><span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Completed</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vaccination</td>
-                                                <td>3.053 ETH</td>
-                                                <td>2h 5m 40s</td>
-                                                <td><span class="bg-danger-focus text-danger-main dark:text-danger-main px-2.5 py-1 rounded-lg font-medium text-sm">Canceled</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dental Cleanup</td>
-                                                <td>3.053 ETH</td>
-                                                <td>2h 5m 40s</td>
-                                                <td><span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Completed</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Follow up Appointment</td>
-                                                <td>3.053 ETH</td>
-                                                <td>2h 5m 40s</td>
-                                                <td><span class="bg-danger-focus text-danger-main dark:text-danger-main px-2.5 py-1 rounded-lg font-medium text-sm">Canceled</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>General Checkup</td>
-                                                <td>#63254</td>
-                                                <td>27 Mar 2025</td>
-                                                <td><span class="bg-success-focus text-success-main dark:text-success-main px-2.5 py-1 rounded-lg font-medium text-sm">Completed</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Latest Performance End -->
+              
+                    @endif
                 </div>
             </div>
 
-           
         </div>
 
 @endsection
+

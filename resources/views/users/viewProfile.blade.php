@@ -45,7 +45,7 @@
             <div class="user-grid-card relative border border-neutral-200 dark:border-neutral-600 rounded-2xl overflow-hidden bg-white dark:bg-neutral-700 h-full">
                 <div class="pb-6 ms-6 mb-6 me-6 -mt-[100px]">
                     <div class="text-center border-b border-neutral-200 dark:border-neutral-600">
-                        <img src="{{ asset('assets/images/user-grid/user-grid-img14.png') }}" alt="" class="border br-white border-width-2-px w-200-px h-[200px] rounded-full object-fit-cover mx-auto">
+                        <img src="{{ asset('assets/images/user-grid/person.png') }}" alt="" class="border br-white border-width-2-px w-100px h-100px rounded-full mx-auto">
                         <h6 class="mb-0 mt-4">{{ $user->name }}</h6>
                         <span class="text-secondary-light mb-4">{{ $user->email }}</span>
                     </div>

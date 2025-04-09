@@ -65,7 +65,7 @@
                                         Department <span class="text-danger-600">*</span>
                                     </label>
                                     <select name="department_id" class="form-control rounded-lg form-select" id="department_id" required>
-                                        <option value="{{ $user->department_id }}">{{ $user->department->name }}</option>
+                                        <option value="{{ $user->department_id }}">@if($user->department){{ $user->department->name }}@endif</option>
                                         @foreach($departments as $department)
                                             <option value="{{ $department->id }}">{{ $department->name }}</option>
                                         @endforeach

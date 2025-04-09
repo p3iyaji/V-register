@@ -121,7 +121,7 @@ class PreRegistersController extends Controller
             $imagePath = $image->store('images', 'public');
             $request->image = $imagePath;
         
-            $visitor = Visitor::findOrFail($request->id);
+            $visitor = Visitor::findOrFail($id);
             $visitor->title = $request->title;
             $visitor->first_name = $request->first_name;
             $visitor->last_name = $request->last_name;
@@ -141,7 +141,7 @@ class PreRegistersController extends Controller
             $visitor->expected_time = $request->expected_time;
             $visitor->update();
         } else {
-            $visitor = Visitor::findOrFail($request->id);
+            $visitor = Visitor::findOrFail($id);
             
             $visitor->title = $request->title;
             $visitor->first_name = $request->first_name;

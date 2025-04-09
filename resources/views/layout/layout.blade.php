@@ -5,7 +5,7 @@
 <x-head />
 
 <body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white">
-
+   
     <!-- ..::  header area start ::.. -->
     <x-sidebar />
     <!-- ..::  header area end ::.. -->
@@ -22,7 +22,10 @@
             <!-- ..::  header area end ::.. -->
 
             @yield('content')
-            @livewireScripts
+
+            
+
+            
         </div>
         <!-- ..::  footer  start ::.. -->
         <x-footer />
@@ -33,7 +36,7 @@
     <!-- ..::  scripts  start ::.. -->
     <x-script  script='{!! isset($script) ? $script : "" !!}' />
     <!-- ..::  scripts  end ::.. -->
-
+    @livewireScripts 
 </body>
 
 </html>

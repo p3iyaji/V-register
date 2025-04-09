@@ -6,10 +6,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\AvoidDuplicateConstraintSoftDelete;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use SoftDeletes, AvoidDuplicateConstraintSoftDelete, HasFactory, Notifiable;
+
+    public function getDuplicateAvoidColumns(): array
+    {
+        return ['email'];
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'email';
+    }
 
     /**
      * The attributes that are mass assignable.

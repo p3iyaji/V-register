@@ -40,6 +40,8 @@
                                     <th scope="col">Check-out</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Phone</th>
+                                    <th scope="col">Host</th>
+                                    <th scope="col">Type</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -51,24 +53,40 @@
                                     <td>{{ $visitor->first_name }}</td>
                                     <td>{{ $visitor->last_name }}</td>
                                     <td>{{ $visitor->check_in ? $visitor->check_in : 'Not checked in' }}</td>
-                                    <td>{{ $visitor->check_out ? $visitor->check_out : 'Not checked out' }}</td>
+                                    <td>
+                                        @if($visitor->check_in && $visitor->check_out == null) 
+                                            <a href="{{ route('checkOut', $visitor->id) }}" class="btn btn-primary bg-danger-100 dark:bg-danger-600/25 hover:bg-danger-200 text-danger-600 dark:text-danger-500 font-medium flex justify-center items-center rounded-full">
+                                                Check Out
+                                            </a>
+                                        @elseif($visitor->check_out !== null)
+                                            <span class="text-danger-600 dark:text-danger-500">{{ $visitor->check_out }}</span>
+                                        @else
+                                            Not Checked In
+                                        @endif
+                                    </td>
                                     <td>{{ $visitor->email }}</td>
                                     <td>{{ $visitor->phone }}</td>
+                                    <td>{{ $visitor->employee->name }}</td>
+                                    <td>{{ $visitor->type }}</td>
                                     <td class="text-center">
                                         <div class="flex items-center gap-3 justify-center">
                                             <a href="{{ route('viewVisitor', $visitor->id) }}" type="button"
                                                 class="bg-info-100 dark:bg-info-600/25 hover:bg-info-200 text-info-600 dark:text-info-400 font-medium w-10 h-10 flex justify-center items-center rounded-full">
                                                 <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
                                             </a>
+                                            @if(auth()->user()->role == 'admin' && $visitor->check_in == null)
                                             <a type="button" href="{{ route('editVisitor', $visitor->id) }}"
                                                 class="bg-success-100 dark:bg-success-600/25 text-success-600 dark:text-success-400 bg-hover-success-200 font-medium w-10 h-10 flex justify-center items-center rounded-full">
                                                 <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
                                             </a>
+                                            @endif
+                                            @if(auth()->user()->role == 'admin')
                                             <a type="button" href="{{ route('deleteVisitor', $visitor->id) }}"
                                                 class="remove-item-btn bg-danger-100 dark:bg-danger-600/25 hover:bg-danger-200 text-danger-600 dark:text-danger-500 font-medium w-10 h-10 flex justify-center items-center rounded-full"
                                                 onclick="confirmDelete(event, '{{ route('deleteVisitor', $visitor->id) }}')">
                                                 <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
                                             </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -81,7 +99,15 @@
                         <span>
                             Showing {{ $visitors->firstItem() }} to {{ $visitors->lastItem() }} of {{ $visitors->total() }} entries
                         </span>
-                        {{ $visitors->links() }}
+                        <ul class="pagination flex flex-wrap items-center gap-2 justify-center">
+                            <!-- Pagination Elements -->
+                            @foreach ($visitors->links()->elements[0] as $page => $url)
+                                <li class="page-item {{ $visitors->currentPage() == $page ? 'active' : '' }}">
+                                    <a class="page-link {{ $visitors->currentPage() == $page ? 'bg-primary-600 text-white' : 'bg-neutral-300 dark:bg-neutral-600 text-secondary-light' }} font-semibold rounded-lg border-0 flex items-center justify-center h-8 w-8 text-base"
+                                    href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>

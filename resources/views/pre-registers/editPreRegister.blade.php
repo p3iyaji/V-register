@@ -97,7 +97,7 @@
                                         Employee <span class="text-danger-600">*</span>
                                     </label>
                                     <select name="employee_id" class="form-control rounded-lg form-select" id="employee_id" required>
-                                        <option value="{{ old('employee_id', $visitor->employee_id) }}">{{ old('employee_id', $visitor->user->name) }}</option>
+                                        <option value="">{{ old('employee_id', $visitor->employee->name) }}</option>
                                         @foreach($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                                         @endforeach

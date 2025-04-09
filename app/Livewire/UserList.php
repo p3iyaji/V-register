@@ -5,6 +5,9 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
+
+
 
 class UserList extends Component
 {
@@ -23,6 +26,7 @@ class UserList extends Component
         $this->users = User::paginate($this->perPage);
     }
 
+    
     public function mySearch()
     {
         $this->search = $this->search;
@@ -30,6 +34,8 @@ class UserList extends Component
 
     public function changeStatus($id)
     {
+        \Log::info("Change status called for user: " . $id); // Check Laravel logs
+
         $user = User::find($id);
         $user->is_active = $user->is_active === 1 ? 0 : 1;
         $user->save();

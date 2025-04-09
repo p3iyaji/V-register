@@ -16,7 +16,13 @@
                         <tbody>
                             <tr>
                                 <div class="item-center justify-center mb-2">
+                                    @if($visitor->image)
                                     <img src="{{ asset('storage/'.$visitor->image) }}" alt="Visitor Image" class="w-24 h-24 rounded-lg">
+                                    @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 rounded-lg text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    @endif
                                 </div>
                             </tr>
                             <tr>
@@ -55,6 +61,10 @@
                                 <th>Created At</th>
                                 <td>{{ $visitor->created_at->format('d M Y') }}</td>
                             </tr>
+                            <tr>
+                                <th>Host</th>
+                                <td>{{ $visitor->employee->name }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -71,16 +81,26 @@
                         Go back
                     </button>
 
+                    <!-- Notify Host -->
+                    <button type="button" onclick="window.location.href='{{ route('notifyHost', $visitor->id) }}'" 
+                            class="btn bg-purple-600 text-white dark:bg-purple-600/25 dark:text-purple-400 hover:bg-purple-600 dark:hover:bg-purple-700 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                        Notify Host
+                    </button>
+
                     <!-- Visitor's Details Button -->
+                    @if($visitor->status == 'pending' && auth()->user()->role == 'admin')
                     <button type="button" onclick="window.location.href='{{ route('editVisitor', $visitor->id) }}'" class="btn btn-primary border border-primary-600 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                         </svg>
                         Update Visitor
                     </button>
-
+                    @endif
                     <!-- Accept Button -->
-                    @if($visitor->status == 'pending')
+                    @if($visitor->status == 'pending' && auth()->user()->role == 'admin')
                     <button type="button" onclick="window.location.href='{{ route('acceptVisitor', $visitor->id) }}'" class="btn btn-success bg-success-500 text-white dark:bg-success-600/25 dark:text-success-400 hover:bg-success-600 dark:hover:bg-success-700 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -88,20 +108,6 @@
                         Accept
                     </button>
                     <!-- Reject Button -->
-                    <button type="button" onclick="window.location.href='{{ route('rejectVisitor', $visitor->id) }}'" class="btn btn-danger bg-danger-500 text-white dark:bg-danger-600/25 dark:text-danger-400 hover:bg-danger-600 dark:hover:bg-danger-700 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        Reject
-                    </button>
-                    @elseif($visitor->status == 'rejected')
-                    <button type="button" onclick="window.location.href='{{ route('acceptVisitor', $visitor->id) }}'" class="btn btn-success bg-success-500 text-white dark:bg-success-600/25 dark:text-success-400 hover:bg-success-600 dark:hover:bg-success-700 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
-                        Accept
-                    </button>
-                    @elseif($visitor->status == 'accepted')
                     <button type="button" onclick="window.location.href='{{ route('rejectVisitor', $visitor->id) }}'" class="btn btn-danger bg-danger-500 text-white dark:bg-danger-600/25 dark:text-danger-400 hover:bg-danger-600 dark:hover:bg-danger-700 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -126,6 +132,13 @@
                             {{ $visitor->check_in ? $visitor->check_in : 'Not checked in' }}
                         </span>
                     </p>
+
+                    @else
+                    <p class="text-lg font-semibold mb-2">Check-in: 
+                        <span class="text-success-600 dark:text-success-300">
+                            Not checked in
+                        </span>
+                    </p>
                     @endif
 
                     <p class="text-lg font-semibold mb-2">Check-out: 
@@ -133,7 +146,7 @@
                             {{ $visitor->check_out ? $visitor->check_out : 'Not checked out' }}
                         </span>
                     </p>
-                    <p class="text-lg font-semibold mb-2">Approved/Rejected by: <span class="text-gray-600 dark:text-gray-300">{{ $visitor->approved_by }}</span></p>
+                    <p class="text-lg font-semibold mb-2">Approved/Rejected by: <span class="text-gray-600 dark:text-gray-300">{{ $visitor->user->name }}</span></p>
                     @if($visitor->status == 'accepted')
                         <button type="button" onclick="openVisitorCardModal('{{ route('generateVisitorCard', $visitor->id) }}')" 
                             class="btn btn-primary bg-primary-500 text-white dark:bg-primary-600/25 dark:text-primary-400 hover:bg-primary-600 dark:hover:bg-primary-700 text-base px-4 py-3 rounded-lg w-full flex items-center justify-center gap-2">
